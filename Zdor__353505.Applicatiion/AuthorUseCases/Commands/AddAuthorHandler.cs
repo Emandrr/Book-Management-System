@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Zdor__353505.Applicatiion.AuthorUseCases.Commands
+{
+    public class AddAuthorHandler(IUnitOfWork unitOfWork) :IRequestHandler<AddAuthorCommand,Author>
+    {
+        public async Task<Author>Handle (AddAuthorCommand request,CancellationToken cancellationToken)
+        {
+            await unitOfWork.AuthorRepository.AddAsync(request.author,cancellationToken);
+           // await unitOfWork.SaveAllAsync();
+            return request.author;
+        }
+    }
+}

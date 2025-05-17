@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:converters="clr-namespace:Zdor353505.UI.ValueConverters"
+             x:Class="Zdor353505.UI.Pages.Authors"
+             xmlns:models="clr-namespace:Zdor353505.UI.ViewModels"
+             x:DataType="models:AuthorsViewModel"
+             xmlns:entities="clr-namespace:Zdor__353505.Domain.Entities;assembly=Zdor__353505.Domain"
+             Title="Authors">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded"
+                                        Command="{Binding GetAuthorsCommand}"/>
+        <toolkit:EventToCommandBehavior EventName="NavigatedTo"
+                                        Command="{Binding GetAuthorsCommand}"/>
+    </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <converters:RateToColorValueConverter x:Key="RateToColor"/>
+        <converters:ValueToBooleanConverter x:Key="IsNotNull"/>
+        <converters:IdToImageSourceConverter x:Key="IdToImageSource"/>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Author" Command="{Binding AddAuthorCommand}"/>
+        <ToolbarItem Text="Update Author" Command="{Binding UpdateAuthorsCommand}"/>
+        <ToolbarItem Text="Delete Author" Command="{Binding DeleteAuthorCommand}"/>
+        <ToolbarItem Text="Add book" Command="{Binding AddBookCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <VerticalStackLayout>
+            <Picker
+            ItemsSource="{Binding Authors}"
+            ItemDisplayBinding="{Binding Name}"
+            SelectedItem="{Binding SelectedAuthor}">
+                <Picker.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged"
+                                                    Command="{Binding GetBooksCommand}"/>
+                </Picker.Behaviors>
+            </Picker>
+            <Frame IsVisible="{Binding SelectedAuthor, Converter={StaticResource IsNotNull}}">
+                <VerticalStackLayout>
+                    <HorizontalStackLayout Spacing="5">
+                        <Label Text="Name:"/>
+                        <Label Text="{Binding SelectedAuthor.Name}"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="5">
+                        <Label Text="Age:"/>
+                        <Label Text="{Binding SelectedAuthor.BirthDate}"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+            <CollectionView  ItemsSource="{Binding Books}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="entities:Book">
+                        <Frame Margin="5" Padding="5" BackgroundColor="{Binding Rate, Converter={StaticResource RateToColor}}">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type models:AuthorsViewModel}},
+                                Path=ShowDetailsCommand}" 
+                                CommandParameter="{Binding}"/>
+                            </Frame.GestureRecognizers>
+                            <HorizontalStackLayout Spacing="3">
+                                <Frame Margin="5"
+                                   BorderColor="Black"
+                                   CornerRadius="50"
+                                   HeightRequest="110"
+                                   WidthRequest="110"
+                                   IsClippedToBounds="True" 
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center">
+                                    <Image
+                                    Aspect="AspectFill"
+                                    HeightRequest="70"
+                                    WidthRequest="70"
+                                Source="{Binding Id, Converter={StaticResource IdToImageSource}}"></Image>
+                                </Frame>
+                                <VerticalStackLayout VerticalOptions="Center" Spacing="15">
+                                    <Label Text="{Binding BookPersonalInfo.BookName}" />
+                                    <Label Text="{Binding Rate, StringFormat='Рейтинг:{0}'}" />
+                                    <Label Text="{Binding BookPersonalInfo.CreatedAt, StringFormat='Создано:{0}'}" />
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>  
+    </ScrollView>
+</ContentPage>

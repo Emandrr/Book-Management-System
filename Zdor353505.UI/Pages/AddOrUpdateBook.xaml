@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Zdor353505.UI.Pages.AddOrUpdateBook"
+             xmlns:models="clr-namespace:Zdor353505.UI.ViewModels"
+             xmlns:converters="clr-namespace:Zdor353505.UI.ValueConverters"
+             xmlns:entities="clr-namespace:Zdor__353505.Domain.Entities;assembly=Zdor__353505.Domain"
+             x:DataType="models:AddOrUpdateBookViewModel"
+             Title="AddOrUpdateBook">
+    <ContentPage.Resources>
+        <converters:ValueToBooleanConverter x:Key="IsNotNull"/>
+    </ContentPage.Resources>
+
+    <StackLayout Margin="10" Spacing="15">
+        <HorizontalStackLayout>
+            <Button Text="Pick a png image!" Command="{Binding PickImageCommand}"/>
+            <Label Text="Succesfully added" IsVisible="{Binding Image, Converter={StaticResource IsNotNull}}"/>
+        </HorizontalStackLayout>
+        <VerticalStackLayout>
+            <Label Text="Name"/>
+            <Entry Text="{Binding BookToAddOrUpdate.BookPersonalInfo.BookName}" Placeholder="Name"/>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout>
+            <Label Text="Rate"/>
+            <Entry Text="{Binding BookToAddOrUpdate.Rate}" Placeholder="Position"/>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout>
+            <Label Text="When created"/>
+            <Entry Text="{Binding BookToAddOrUpdate.BookPersonalInfo.CreatedAt}" Placeholder="0"/>
+        </VerticalStackLayout>
+
+        <Button Text="Save" Command="{Binding AddOrUpdateBookCommand}"/>
+    </StackLayout>
+</ContentPage>

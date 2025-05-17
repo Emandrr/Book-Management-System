@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Zdor353505.UI.MainPage"
+             BackgroundColor="{StaticResource SecondaryColor}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="40">
+            <Image x:Name="BookImage"
+                   Source="C://Users//pavel//source//repos//Zdor__353505//Zdor353505.UI//library_icon.png"
+                   HeightRequest="200"
+                   Aspect="AspectFit"
+                   Opacity="0"
+                   Scale="0.5"
+                   Rotation="-15"
+                   SemanticProperties.Description="Иконка системы управления библиотекой"/>
+            <Label x:Name="TitleLabel"
+                   Text="Система менеджмента библиотеки"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource PrimaryColor}"
+                   HorizontalOptions="Center"
+                   Opacity="0"
+                   TranslationY="-50"
+                   SemanticProperties.HeadingLevel="Level1"/>
+            <Label x:Name="SubtitleLabel"
+                   Text="Эффективное управление книгами и авторами"
+                   FontSize="18"
+                   TextColor="{StaticResource TertiaryColor}"
+                   HorizontalOptions="Center"
+                   Opacity="0"
+                   TranslationY="50"
+                   SemanticProperties.HeadingLevel="Level2"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
